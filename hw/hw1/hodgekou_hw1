@@ -1,0 +1,155 @@
+# HW_one
+
+## 矩阵乘法计算器
+
+```go
+func Product(arr1 [][]int, arr2 [][]int, output [X][Y]int) {
+	for i:=0; i<len(arr1); i++ { //O(M)
+		for j:=0; j<len(arr1[0]); j++ { //O(N)
+			var ret int
+			for k :=0; k<len(arr2[0]); k++ { //O(Y)
+				ret += arr1[i][k] * arr2[k][j]
+			}
+			output[i][j] = ret
+		}
+	}
+    // 复杂度M*N * X*Y 
+    // O(M)*O(N)*O(Y) = O(MNY)
+
+
+	for _, v := range output {
+		fmt.Println(v)
+	}
+}
+
+// 输出数组需要定义，或者设置一个比较大的数组
+const (
+	X = 3
+	Y = 3
+)
+
+func question_one() {
+	arr1 := [][]int {
+		{1,2,3},
+		{4,5,6},
+		{7,8,9},
+	}
+
+	arr2 := [][]int {
+		{-1,-2,-3},
+		{-4,-5,-6},
+		{-7,-8,-9},
+	}
+	var output [X][Y]int //output := [X][Y]int{}
+	Product(arr1, arr2, output)
+}
+// 计算结果
+// [-30 -36 -42]
+// [-66 -81 -96]
+// [-102 -126 -150]
+
+```
+
+
+
+## 洗牌算法实现
+
+```go
+func question_two() {
+	offical_golang()
+	person_shuffle()
+}
+
+const (
+	Test_Number = 100000;
+	x = 10;
+	y = 10;
+)
+
+// 传统思路：选最后一个数字和前面的随机选的数字交换
+// 不算测试的代码这个复杂度只有O(N)
+func person_shuffle() {
+	fmt.Println("Personal shuffle")
+	for i:=0; i<Test_Number; i++ {
+		rand.Seed(time.Now().UnixNano())
+
+		shuffle_arr := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+
+		for i:=0; i<len(shuffle_arr); i++ {
+			rand_number := rand.Intn(len(shuffle_arr)-i)
+			swap(&shuffle_arr[rand_number], &shuffle_arr[len(shuffle_arr)-1-i])
+		}
+
+		test_shuffle(shuffle_arr)
+	}
+
+	test_shuffle_print(res_shuffle)
+}
+
+func swap(a, b *int) {
+	*a, *b = *b, *a
+}
+
+var res_shuffle [x][y]int
+var offical_shuffle[x][y]int
+
+// 统计shuffle的数字次数
+func test_shuffle(array []int) {
+	for k, m := range array {
+		res_shuffle[m][k] += 1
+	}
+}
+
+// 打印数字分布情况
+func test_shuffle_print(array [x][y]int) {
+	for _, v := range array {
+		for _, m := range v {
+			fmt.Print(m, " ")
+		}
+		fmt.Println()
+	}
+}
+
+func offical_golang() {
+	for i:=0; i<Test_Number; i++ {
+		rand.Seed(time.Now().UnixNano())
+
+		shuffle_arr := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+		rand.Shuffle(len(shuffle_arr), func(i, j int) {
+			shuffle_arr[i], shuffle_arr[j] = shuffle_arr[j], shuffle_arr[i]
+		})
+
+		for k, v := range shuffle_arr {
+			offical_shuffle[v][k] += 1
+		}
+	}
+	fmt.Println("offical")
+
+	test_shuffle_print(offical_shuffle)
+}
+
+// offical（golang自带洗牌算法）
+// 9000 9640 10501 10357 9622 8836 10634 10204 12084 9122
+// 10648 9468 10747 9662 8799 9896 9697 11683 9246 10154
+// 10617 11304 9666 9741 10740 9863 9680 8716 10079 9594
+// 10253 9395 10880 9915 10783 10063 9440 9413 9677 10181
+// 9607 10522 11019 9450 9008 9886 10304 9868 10006 10330
+// 9670 9471 9307 9890 11160 10535 9924 8547 10807 10689
+// 9212 11498 10363 10233 9753 9494 10717 10399 8618 9713
+// 9870 11341 9375 9873 10293 10120 9754 9854 8871 10649
+// 10510 7679 8980 11282 10273 10736 10722 10619 8935 10264
+// 10613 9682 9162 9597 9569 10571 9128 10697 11677 9304
+// Personal shuffle（可以看到和官方的差不多）
+// 11431 10017 9737 10811 9795 9745 11029 10168 8788 8479
+// 10389 10376 9946 9599 10758 9763 9933 8902 10675 9659
+// 10501 10110 9132 10127 10227 10110 8393 10122 10320 10958
+// 10750 10402 9432 9095 9512 9437 9830 10703 9264 11575
+// 9410 10111 11165 9153 9338 9769 11148 10166 9940 9800
+// 8773 9525 9938 9795 10976 9802 10679 9860 10443 10209
+// 11067 10050 9866 10848 9588 10025 10253 9339 9988 8976
+// 9288 9049 9584 9941 10253 10268 10315 11742 9882 9678
+// 9254 10852 10885 10102 8923 11148 9279 10447 9564 9546
+// 9137 9508 10315 10529 10630 9933 9141 8551 11136 11120
+
+```
+
